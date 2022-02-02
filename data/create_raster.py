@@ -56,6 +56,11 @@ def create(target_filepath):
     target_band = None
     target_raster = None
 
+    target_raster = gdal.OpenEx(target_filepath, gdal.GA_Update)
+    gdal.SetConfigOption("COMPRESS_OVERVIEW", "LZW")
+    target_raster.BuildOverviews("AVERAGE", [2, 4, 8, 16, 32, 64, 128, 256])
+    target_raster = None
+
 
 if __name__ == '__main__':
     create(TARGET_RASTER)
